@@ -1,0 +1,183 @@
+@use '@/styles/shared-imports.scss' as *;
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--headerHeight);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: z('header');
+  transition: 0.5s $ease-quad-out;
+
+  // &::after {
+  //   content: '';
+  //   position: absolute;
+  //   inset: 0;
+  //   width: 100%;
+  //   height: 100%;
+  //   background: rgba(165, 177, 255, 0.1);
+  //   backdrop-filter: blur(12px);
+  //   z-index: -1;
+  //   transition: opacity 0.4s $ease-quad-out 0.3s;
+  // }
+
+  // &.isAtTop {
+  //   &::after {
+  //     opacity: 0;
+  //     transition: opacity 0.2s $ease-quad-out;
+  //   }
+  // }
+
+  // &.isScrollingDown {
+  //   transform: translateY(calc(var(--headerHeight) * -1));
+  // }
+}
+
+.burgerMenuWrapper {
+  @include above('desktop') {
+    display: none;
+  }
+}
+
+.logoWrapper {
+  display: block;
+  width: auto;
+  @include max-prop(height, rem(34), vw(34));
+  @include max-prop(width, rem(205), vw(205));
+
+  & svg,
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @include under('desktop') {
+    @include position-center();
+  }
+}
+
+.jumpLinks {
+  display: flex;
+  @include position-center();
+  @include max-prop(gap, rem(20), vw(20));
+
+  @include under('desktop') {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    min-height: 50vh;
+    background-color: $white;
+    z-index: -1;
+    transform: translate(0, -100%);
+    transition: transform 0.6s $ease-expo-out;
+    padding: calc(var(--headerHeight) * 2) var(--spacer) var(--spacer);
+    flex-direction: column;
+    gap: rem(40);
+
+    .openMenu & {
+      transform: translate(0, 0%);
+      transition: transform 0.6s $ease-expo-out;
+    }
+  }
+}
+
+.jumpLink {
+  position: relative;
+  font-weight: 500;
+
+  &::after {
+    content: '';
+    position: absolute;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 13" fill="none" transform="matrix(0 1 1 0 0 0)"><g clip-path="url(%23a)" fill="%23171F50"><path d="M7.804 12.691a.559.559 0 0 1-.396-.955l3.374-3.373a.345.345 0 0 0 0-.487L7.408 4.503A.559.559 0 1 1 8.2 3.71l3.373 3.374c.57.57.57 1.497 0 2.067L8.2 12.526a.56.56 0 0 1-.396.163z"/><path d="M11.2 8.68H.8c-.442 0-.8-.25-.8-.558s.358-.56.8-.56h10.398c.442 0 .8.251.8.56 0 .308-.358.559-.8.559z"/><path d="M0 8.122V.868a.56.56 0 0 1 1.118 0v7.254a.56.56 0 0 1-1.118 0"/></g></svg>');
+    background-repeat: no-repeat;
+    background-size: contain;
+    left: calc(100% + rem(1));
+    top: 100%;
+    opacity: 0;
+    transform: translate(-20%, -50%);
+    width: rem(12);
+    height: rem(12);
+    transition:
+      transform 0.25s $ease-quad-out,
+      opacity 0.25s $ease-quad-out;
+  }
+
+  @include above('desktop') {
+    &:hover {
+      &::after {
+        transform: translate(0%, -50%);
+        opacity: 1;
+        transition:
+          transform 0.25s $ease-quad-out,
+          opacity 0.25s $ease-quad-out;
+      }
+    }
+  }
+
+  @include under('desktop') {
+    width: 100%;
+    display: block;
+
+    & > span {
+      font-size: rem(40);
+      line-height: 0.95;
+      letter-spacing: -1.38px;
+    }
+
+    &::after {
+      width: rem(24);
+      height: rem(24);
+      opacity: 1 !important;
+      transform: translate(0, -50%) rotate(90deg);
+      top: 50%;
+      left: auto;
+      right: 0;
+    }
+  }
+}
+
+.ctas {
+  display: flex;
+  align-items: center;
+
+  @include max-prop(gap, rem(10), vw(10));
+
+  @include under('desktop') {
+    & > div {
+      &:not(.signCta) {
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      &.signCta {
+        & button {
+          padding: 0;
+          border-radius: unset;
+
+          &::before,
+          &::after {
+            background: transparent;
+          }
+
+          & > svg {
+            height: rem(27);
+            width: auto;
+
+            & path {
+              fill: $navy;
+            }
+          }
+
+          & span {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}

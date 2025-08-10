@@ -1,0 +1,8 @@
+@use 'sass:string';
+
+@mixin clamp($cssProperty, $min-value, $target-value, $max-value) {
+  #{$cssProperty}: $target-value; //fallback (MS Edge 18 and below)
+  #{$cssProperty}: string.unquote(
+    'clamp(#{$min-value},  #{$target-value}, #{$max-value})'
+  );
+}

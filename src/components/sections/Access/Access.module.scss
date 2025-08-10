@@ -1,0 +1,143 @@
+@use '@/styles/shared-imports.scss' as *;
+
+.container {
+  width: 100vw;
+  min-height: 100svh;
+  @include max-prop(padding-top, rem(80), vw(120));
+  @include max-prop(padding-bottom, rem(80), vw(120));
+}
+
+.titleLight {
+  color: $white;
+  @include max-prop(margin-bottom, rem(20), vw(20));
+}
+
+.row {
+  @include max-prop(row-gap, rem(40), vw(60));
+}
+
+.cards {
+  display: flex;
+  gap: var(--gap);
+  align-items: stretch;
+
+  & > div {
+    flex: 1;
+    height: auto;
+
+    & > div {
+      height: 100%;
+    }
+  }
+
+  @include under('desktop') {
+    flex-direction: column;
+  }
+}
+
+.card {
+  background-color: $white;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  @include max-prop(gap, rem(80), vw(85));
+  @include max-prop(padding, rem(25), vw(40));
+  @include max-prop(border-radius, rem(10), vw(10));
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  @include max-prop(gap, rem(20), vw(20));
+
+  & > p {
+    color: $grey;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba($color: $navy, $alpha: 0.12);
+  @include max-prop(padding-top, rem(25), vw(30));
+  @include max-prop(gap, rem(12), vw(12));
+
+  & label {
+    background: $grad-logo;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-style: normal;
+  }
+}
+
+.fieldset {
+  padding: 0 rem(20);
+  background-color: #f2f2f2;
+  display: flex;
+  align-items: center;
+  position: relative;
+  @include max-prop(gap, rem(15), vw(15));
+  @include max-prop(border-radius, rem(4), vw(4));
+
+  & > svg {
+    @include max-prop(max-height, rem(15), vw(15));
+  }
+
+  & > input {
+    background: transparent;
+    line-height: 1.3;
+    letter-spacing: -0.45px;
+    color: $navy;
+    flex: 0 0 85%;
+    @include max-prop(font-size, rem(14), vw(15));
+    @include max-prop(height, rem(46), vw(46));
+
+    &::placeholder {
+      @include max-prop(font-size, rem(14), vw(15));
+      line-height: 1.3;
+      letter-spacing: -0.45px;
+      color: $navy;
+      opacity: 0.4;
+    }
+  }
+}
+
+.eye {
+  position: absolute;
+  right: rem(20);
+  top: 50%;
+  transform: translateY(-50%);
+  width: rem(16);
+  height: rem(11.5);
+  cursor: pointer;
+  display: block;
+
+  & > svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 1px;
+    background-color: $navy;
+    transform: rotate(-45deg) translate(-5.8px, -5.8px);
+    display: none;
+  }
+
+  &.showPW {
+    &::after {
+      display: block;
+    }
+  }
+}

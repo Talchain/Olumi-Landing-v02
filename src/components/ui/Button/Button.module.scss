@@ -1,0 +1,120 @@
+@use '@/styles/shared-imports.scss' as *;
+
+.link {
+  @include max-prop(padding-top, rem(15), vw(15));
+  @include max-prop(padding-bottom, rem(15), vw(15));
+  @include max-prop(padding-left, rem(20), vw(20));
+  @include max-prop(padding-right, rem(20), vw(20));
+  @include max-prop(gap, rem(10), vw(10));
+  @include max-prop(border-radius, rem(50), vw(50));
+
+  @include flex-center();
+  line-height: 0; /* line-height is handled by the text */
+  white-space: nowrap;
+  color: $navy;
+  align-self: flex-start;
+  font-weight: 500;
+  display: inline-flex;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.5s $ease-expo-out;
+
+  .label {
+    line-height: 100%;
+    z-index: 1;
+  }
+
+  & svg {
+    display: block !important;
+    height: auto;
+    object-fit: contain;
+    z-index: 1;
+    @include max-prop(width, rem(12), vw(12));
+
+    & path {
+      transition: fill 0.5s $ease-expo-out;
+    }
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s $ease-expo-out;
+    @include max-prop(border-radius, rem(50), vw(50));
+  }
+
+  &::before {
+    background: $white;
+  }
+
+  &::after {
+    background: $navy;
+    transform: translateY(100%) scale(0.9);
+    z-index: 0;
+  }
+
+  &.light {
+    &::after {
+      background: $navy;
+    }
+  }
+
+  &.light.user {
+    & svg path {
+      fill: $navy;
+    }
+  }
+
+  &.dark {
+    color: $white;
+
+    &::before {
+      background: $navy;
+    }
+
+    &::after {
+      background: $white;
+    }
+  }
+
+  &.gradient {
+    color: $white;
+
+    &::before {
+      background: linear-gradient(
+        94deg,
+        #0613ff -0.27%,
+        #7f00f5 53.88%,
+        #df51ff 100%
+      );
+    }
+  }
+
+  &:hover {
+    color: $white;
+    transition: color 0.5s $ease-expo-out;
+
+    &.dark {
+      color: $navy;
+
+      & svg path {
+        fill: $navy;
+        transition: fill 0.5s $ease-expo-out;
+      }
+    }
+
+    &::before {
+      transform: scale(0.99);
+      transition: transform 0.6s $ease-expo-out;
+    }
+
+    &::after {
+      transform: translateY(0) scale(1);
+      transition: transform 0.6s $ease-expo-out;
+    }
+  }
+}

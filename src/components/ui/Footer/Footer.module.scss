@@ -1,0 +1,213 @@
+@use '@/styles/shared-imports.scss' as *;
+
+.footer {
+  width: 100vw;
+  background-color: $white;
+  border-top: 1px solid rgba($color: $navy, $alpha: 0.12);
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  row-gap: rem(30);
+  border-bottom: 1px solid rgba($color: $navy, $alpha: 0.12);
+  @include max-prop(padding-top, rem(20), vw(20));
+  @include max-prop(padding-bottom, rem(20), vw(20));
+}
+
+.logoWrapper {
+  display: block;
+  width: auto;
+  @include max-prop(height, rem(34), vw(34));
+  @include max-prop(width, rem(205), vw(205));
+
+  & svg,
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.middle {
+  @include max-prop(padding-top, rem(60), vw(80));
+  @include max-prop(padding-bottom, rem(60), vw(160));
+  row-gap: rem(50);
+}
+
+.linksWrapper {
+  display: flex;
+  flex-direction: column;
+  @include max-prop(gap, rem(40), vw(40));
+
+  & > h3 {
+    @include max-prop(max-width, rem(357), vw(357));
+  }
+}
+
+.links {
+  display: flex;
+  gap: var(--gap);
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    @include max-prop(gap, rem(20), vw(20));
+
+    & > ul {
+      display: flex;
+      flex-direction: column;
+      @include max-prop(gap, rem(8), vw(8));
+
+      & > li > a {
+        display: flex;
+        align-items: center;
+        @include max-prop(gap, rem(6), vw(6));
+
+        & > svg {
+          @include max-prop(width, rem(12), vw(12));
+          @include max-prop(height, rem(12), vw(12));
+          object-fit: contain;
+
+          & path {
+            fill: $lilac;
+            transition: fill 0.3s $ease-quad-out;
+          }
+        }
+
+        & > span {
+          position: relative;
+
+          &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 1px;
+            width: 100%;
+            height: 1px;
+            background-color: $navy;
+            transform: scaleX(0);
+            transform-origin: bottom left;
+            transition: transform 0.3s $ease-quad-out;
+          }
+        }
+
+        &:hover {
+          & > svg path {
+            fill: $navy;
+            transition: fill 0.3s $ease-quad-out;
+          }
+
+          & > span::after {
+            transform: scaleX(1);
+            transition: transform 0.3s $ease-quad-out;
+          }
+        }
+      }
+    }
+  }
+}
+
+.quicklinks {
+  width: calc(99% * 2 / 6 - var(--gap) / 2);
+
+  @include under('medium') {
+    width: calc((100% - var(--gap)) / 2);
+  }
+}
+
+.access {
+  display: flex;
+  flex-direction: column;
+  @include max-prop(gap, rem(30), vw(30));
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  @include max-prop(gap, rem(40), vw(40));
+
+  & > p {
+    color: $grey;
+    @include max-prop(max-width, rem(420), vw(420));
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  @include max-prop(gap, rem(12), vw(12));
+}
+
+.fieldset {
+  padding: 0 rem(20);
+  background-color: #f2f2f2;
+  display: flex;
+  align-items: center;
+  position: relative;
+  @include max-prop(gap, rem(15), vw(15));
+  @include max-prop(border-radius, rem(4), vw(4));
+
+  & > svg {
+    @include max-prop(max-height, rem(15), vw(15));
+  }
+
+  & > input {
+    background: transparent;
+    line-height: 1.3;
+    letter-spacing: -0.45px;
+    color: $navy;
+    flex: 0 0 85%;
+    @include max-prop(font-size, rem(14), vw(15));
+    @include max-prop(height, rem(46), vw(46));
+
+    &::placeholder {
+      @include max-prop(font-size, rem(14), vw(15));
+      line-height: 1.3;
+      letter-spacing: -0.45px;
+      color: $navy;
+      opacity: 0.4;
+    }
+  }
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  row-gap: rem(30);
+  border-top: 1px solid rgba($color: $navy, $alpha: 0.12);
+  color: $grey;
+  position: relative;
+
+  @include max-prop(padding-top, rem(20), vw(20));
+  @include max-prop(padding-bottom, rem(20), vw(20));
+
+  & a {
+    color: $navy;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 1px;
+      width: 100%;
+      height: 1px;
+      background-color: $navy;
+    }
+  }
+
+  @include under('medium') {
+    row-gap: rem(25);
+    flex-wrap: wrap;
+  }
+}
+
+.privacy {
+  @include above('desktop') {
+    position: absolute !important;
+    @include position-center();
+  }
+}

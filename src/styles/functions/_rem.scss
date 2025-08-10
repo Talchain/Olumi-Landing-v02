@@ -1,0 +1,7 @@
+@use 'sass:math';
+@use 'sass:map';
+@use '../config/main' as *;
+
+@function rem($number, $base: map.get($baseConfig, remBase)) {
+  @return #{math.div(($number), $base)}rem;
+}

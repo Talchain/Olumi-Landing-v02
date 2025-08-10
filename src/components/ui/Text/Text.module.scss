@@ -1,0 +1,48 @@
+@use '@/styles/shared-imports.scss' as *;
+
+.h1 {
+  @include max-prop(font-size, rem(72), vw(179));
+  @include min-prop(letter-spacing, rem(-2.16), vw(-8.95));
+  line-height: 0.9;
+  font-weight: 400;
+}
+
+.h2 {
+  @include max-prop(font-size, rem(52), vw(72));
+  line-height: 0.95;
+  letter-spacing: -2.16px;
+  font-weight: 400;
+}
+
+.h3 {
+  @include max-prop(font-size, rem(38), vw(46));
+  line-height: 0.95;
+  letter-spacing: -1.38px;
+  font-weight: 400;
+}
+
+.h4 {
+  @include max-prop(font-size, rem(20), vw(24));
+  line-height: 1;
+  letter-spacing: -0.72px;
+  font-weight: 400;
+}
+
+.h5 {
+  @include max-prop(font-size, rem(18), vw(20));
+  line-height: 1;
+  letter-spacing: -0.6px;
+  font-weight: 400;
+}
+
+.body {
+  @include max-prop(font-size, rem(14), vw(15));
+  line-height: 1.3;
+  letter-spacing: -0.45px;
+}
+
+.linkCopy {
+  @include max-prop(font-size, rem(14), vw(15));
+  line-height: 1;
+  letter-spacing: -0.3px;
+}

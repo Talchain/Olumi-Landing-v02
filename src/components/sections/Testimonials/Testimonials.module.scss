@@ -1,0 +1,131 @@
+@use '@/styles/shared-imports.scss' as *;
+
+.container {
+  width: 100vw;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  @include max-prop(gap, rem(40), vw(40));
+  @include max-prop(padding-top, rem(100), vw(160));
+  @include max-prop(padding-bottom, rem(100), vw(160));
+}
+
+.title {
+  margin: auto;
+  @include max-prop(max-width, rem(650), vw(760));
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    @include max-prop(gap, rem(30), vw(30));
+
+    & > p {
+      font-weight: 500;
+    }
+  }
+}
+
+/////////////////// Slider /////////////////////////
+
+.slider {
+  overflow: hidden;
+}
+
+.sliderContainer {
+  overflow: hidden;
+  width: 100%;
+}
+
+.sliderWrapper {
+  display: flex;
+  gap: var(--gap);
+}
+
+.sliderSlider {
+  position: relative;
+  flex: 0 0 calc((100% / 3) - (var(--gap) * 2 / 3));
+  background-color: $lilac-tint;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  @include max-prop(gap, rem(80), vw(80));
+  @include max-prop(border-radius, rem(10), vw(10));
+  @include max-prop(padding, rem(25), vw(40));
+  @include max-prop(padding-top, rem(25), vw(35));
+  @include max-prop(padding-bottom, rem(25), vw(30));
+
+  @include under('desktop') {
+    flex: 0 0 calc((100% / 2) - (var(--gap) / 2));
+  }
+
+  @include under('medium') {
+    flex: 0 0 100%;
+  }
+}
+
+.author {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba($color: $navy, $alpha: 0.12);
+  @include max-prop(padding-top, rem(25), vw(30));
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  @include max-prop(gap, rem(15), vw(15));
+
+  & > svg {
+    @include max-prop(width, rem(30), vw(30));
+    @include max-prop(height, rem(28), vw(28));
+  }
+}
+
+.role {
+  font-weight: 500;
+}
+
+.avatar {
+  border-radius: 50%;
+  overflow: hidden;
+  @include max-prop(width, rem(50), vw(50));
+  @include max-prop(height, rem(50), vw(50));
+
+  & > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.sliderDots {
+  display: flex;
+  justify-content: center;
+  @include max-prop(gap, rem(20), vw(20));
+  @include max-prop(margin-bottom, rem(30), vw(40));
+}
+
+.sliderDot {
+  background-color: $lilac;
+  border: none;
+  cursor: pointer;
+  opacity: 0.3;
+  transform: scale(0.5);
+  transition:
+    transform 0.3s $ease-expo-out,
+    opacity 0.3s $ease-expo-out;
+
+  @include max-prop(width, rem(16), vw(16));
+  @include max-prop(height, rem(16), vw(16));
+  @include max-prop(border-radius, rem(5), vw(5));
+
+  &.isSelected {
+    opacity: 1;
+    transform: scale(1);
+    transition:
+      transform 0.3s $ease-expo-out,
+      opacity 0.3s $ease-expo-out;
+  }
+}

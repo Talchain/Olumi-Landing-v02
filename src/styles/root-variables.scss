@@ -1,0 +1,26 @@
+@use 'sass:map';
+@use './shared-imports.scss' as *;
+
+:root {
+  // global horizontal padding / indentation
+  @include max-prop(--spacer, rem($paddingMobile), vw($paddingDesktop));
+
+  // Header height
+  @include max-prop(
+    --headerHeight,
+    rem($headerHeightMobile),
+    vw($headerHeightDesktop)
+  );
+
+  // Header height
+  @include max-prop(
+    --gap,
+    rem(map.get($gridConfig, gap)),
+    vw(map.get($gridConfig, gap))
+  );
+
+  // breakpoints
+  @each $key, $value in $breakpoints {
+    --breakpoint-#{$key}: #{$value};
+  }
+}

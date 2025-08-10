@@ -1,0 +1,59 @@
+@use '@/styles/shared-imports.scss' as *;
+@use '../../../styles/config/main' as *;
+@use 'sass:map';
+
+.row {
+  display: grid;
+
+  // Column template for each breakpoint, starting with $gridConfig.column
+  grid-template-columns: repeat(
+    #{map.get($gridConfig, columns)},
+    minmax(0, 1fr)
+  );
+
+  @each $key, $value in $responsiveConfig {
+    @include above($key) {
+      grid-template-columns: repeat(
+        #{map.get($value, columns)},
+        minmax(0, 1fr)
+      );
+    }
+  }
+
+  // Column gap based on max-prop of $gridConfig.gap
+  @include max-prop(
+    column-gap,
+    rem(map.get($gridConfig, gap)),
+    vw(map.get($gridConfig, gap))
+  );
+}
+
+.col {
+  width: 100%;
+
+  @for $i from 0 through map.get($gridConfig, columns) {
+    &--#{$i} {
+      @if $i == 0 {
+        display: none;
+      } @else {
+        display: unset;
+        grid-column: span #{$i};
+      }
+    }
+  }
+}
+
+@each $key, $value in $columns {
+  @for $i from 0 through $value {
+    .col--#{$key}--#{$i} {
+      @include above($key) {
+        @if $i == 0 {
+          display: none;
+        } @else {
+          display: unset;
+          grid-column: span #{$i};
+        }
+      }
+    }
+  }
+}

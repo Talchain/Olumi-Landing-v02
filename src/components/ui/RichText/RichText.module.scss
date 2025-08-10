@@ -1,0 +1,15 @@
+@use '@/styles/shared-imports.scss' as *;
+
+.RichText {
+  .emphasis {
+    background: $grad-logo;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-style: normal;
+  }
+
+  p:not(:last-child) {
+    @include max-prop(margin-bottom, rem(30), vw(30));
+  }
+}

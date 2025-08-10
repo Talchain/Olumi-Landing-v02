@@ -1,0 +1,7 @@
+@use '@/styles/shared-imports.scss' as *;
+
+.container {
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 var(--spacer);
+}

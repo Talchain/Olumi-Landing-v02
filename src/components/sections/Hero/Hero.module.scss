@@ -1,0 +1,125 @@
+@use 'sass:string';
+@use 'sass:map';
+@use '@/styles/shared-imports.scss' as *;
+
+.container {
+  width: 100vw;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: rem(40);
+  @include max-prop(gap, rem(28), vw(60));
+
+  @include under('medium') {
+    justify-content: space-between;
+    height: auto;
+    min-height: 100svh;
+  }
+}
+
+.headline {
+  width: 100%;
+  margin-top: calc(var(--headerHeight) + rem(80));
+
+  & > div {
+    white-space: nowrap;
+  }
+
+  @media (min-width: string.unquote('#{map.get($baseConfig, vwBase)*1.1}px')) {
+    font-size: vw(179);
+  }
+
+  @include under('medium') {
+    margin-top: calc(var(--headerHeight) + rem(30));
+  }
+}
+
+.better {
+  position: relative;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: rem(-15);
+    left: calc(var(--spacer) * -1);
+    width: 100vw;
+    height: 1px;
+    background-color: $navy;
+    mix-blend-mode: soft-light;
+    transform: scaleX(0);
+    transform-origin: left bottom;
+  }
+
+  &::after {
+    top: auto;
+    bottom: rem(-15);
+  }
+
+  .loaded & {
+    &::before,
+    &::after {
+      transform: scaleX(1);
+      transition: transform 1.7s $ease-expo-out 2s;
+    }
+  }
+
+  @include under('medium') {
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+}
+
+.faster {
+  color: $white;
+  @include max-prop(margin-top, rem(25), vw(25));
+
+  @include under('medium') {
+    margin-top: unset;
+  }
+}
+
+.mobileMobiles {
+  width: 100%;
+  height: auto;
+  flex-grow: 1;
+  margin-top: calc(rem(70) * -1);
+  opacity: 0;
+  transform: translateY(20%);
+
+  .loaded & {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      transform 0.9s $ease-expo-out 1.9s,
+      opacity 0.9s $ease-expo-out 1.9s;
+  }
+
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @include above('medium') {
+    display: none;
+  }
+}
+
+.copyRow {
+  @include under('desktop') {
+    margin-top: auto;
+  }
+
+  @include under('medium') {
+    margin-top: unset;
+  }
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  @include max-prop(gap, rem(28), vw(30));
+}

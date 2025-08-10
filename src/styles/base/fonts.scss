@@ -1,0 +1,9 @@
+$fontsFolder: '../../assets/fonts';
+
+@font-face {
+  font-family: 'ppneuemontreal-medium';
+  src: url('#{$fontsFolder}/ppneuemontreal-medium.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

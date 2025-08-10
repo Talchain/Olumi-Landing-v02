@@ -1,0 +1,13 @@
+@use '../config/main' as *;
+@use '../config/colors' as *;
+
+// Export for JS
+:export {
+  @each $key, $value in $breakpoints {
+    #{'breakpoint-'+$key}: $value;
+  }
+
+  // @each $key, $value in $colors {
+  //   #{'color-'+$key+''}: $value;
+  // }
+}

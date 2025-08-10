@@ -1,0 +1,7 @@
+@use 'sass:math';
+@use 'sass:map';
+@use '../config/main' as *;
+
+@function vw($targetPx, $contextPx: map.get($baseConfig, vwBase)) {
+  @return #{math.div(($targetPx), ($contextPx)) * 100}vw;
+}

@@ -1,0 +1,33 @@
+@use '@/styles/shared-imports.scss' as *;
+
+.bgCanvas {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.canvas {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: z('canvas');
+}
+
+.loader {
+  background-color: $navy;
+  color: $white;
+  width: 100vw;
+  height: 100vh;
+  position: fixed !important;
+  inset: 0;
+  z-index: z('loader');
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
