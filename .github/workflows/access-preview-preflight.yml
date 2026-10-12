@@ -1,0 +1,42 @@
+name: Access preview preflight
+on:
+  push:
+    branches: ['codex/olumi-access-preview-v3']
+    paths: ['.github/workflows/access-preview-preflight.yml']
+permissions:
+  contents: read
+jobs:
+  inspect-public-page:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check deployment availability without exposing credentials
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: |
+          node -e 'console.log("NETLIFY_AUTH_CONFIGURED=" + Boolean(process.env.NETLIFY_AUTH_TOKEN))'
+      - name: Read the existing public privacy notice
+        run: |
+          npm install --no-save --prefix /tmp/olumi-preflight playwright@1.56.1 >/dev/null
+          node <<'NODE'
+          const { chromium } = require('/tmp/olumi-preflight/node_modules/playwright');
+          (async () => {
+            const browser = await chromium.launch({executablePath:'/usr/bin/google-chrome',headless:true,args:['--no-sandbox']});
+            const page = await browser.newPage({viewport:{width:1440,height:960}});
+            await page.goto('https://olumi.ai/', {waitUntil:'networkidle', timeout:45000});
+            console.log('PUBLIC_PAGE_BEGIN\n'+await page.locator('body').innerText()+'\nPUBLIC_PAGE_END');
+            const control = page.getByText('Privacy policy', {exact:true}).first();
+            if (await control.count()) {
+              await control.click();
+              await page.waitForTimeout(500);
+              console.log('PRIVACY_NOTICE_BEGIN\n'+await page.locator('body').innerText()+'\nPRIVACY_NOTICE_END');
+            } else {
+              console.log('PRIVACY_CONTROL_NOT_FOUND');
+            }
+            console.log('PUBLIC_SCRIPTS='+JSON.stringify(await page.locator('script[src]').evaluateAll(s=>s.map(x=>x.src))));
+            await browser.close();
+          })().catch(e=>{console.error(e.message);process.exit(1)});
+          NODE
