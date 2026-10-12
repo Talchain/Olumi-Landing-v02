@@ -43,9 +43,14 @@ jobs:
           tests=tests.replace(" check('HTTPS page loads'",` if(await page.locator('input[type=password]').count()){
             console.log('TEMPORARY_NETLIFY_PASSWORD_SCREEN='+await page.locator('body').innerText());
             await page.locator('input[type=password]').fill('My-Drop-Site');
-            const submit=page.locator('button[type=submit],input[type=submit]');
-            if(await submit.count()!==1)throw new Error('Password screen needs manual review.');
-            await submit.click();await page.waitForLoadState('networkidle');
+            const submit=page.getByRole('button',{name:'Submit',exact:true});
+            if(await submit.count()!==1){
+              await page.screenshot({path:path.join(out,'password-screen.png'),fullPage:true});
+              console.log('PASSWORD_FORM_CONTROLS='+JSON.stringify(await page.locator('button,input').evaluateAll(es=>es.map(e=>({tag:e.tagName,type:e.type,text:e.textContent,aria:e.getAttribute('aria-label')})))));
+              throw new Error('Password submit control not uniquely identified.');
+            }
+            await submit.click();
+            await page.locator('#request-button').waitFor({state:'visible',timeout:30000});
             response=await page.goto(base+'/?source=investor-deck',{waitUntil:'networkidle'});
           }
            check('HTTPS page loads'`);
