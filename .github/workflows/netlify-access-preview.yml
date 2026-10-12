@@ -1,0 +1,36 @@
+name: Isolated Olumi marketing preview
+on:
+  push:
+    branches: ['codex/olumi-access-preview-v3']
+    paths: ['netlify-access-preview/**', '.github/workflows/netlify-access-preview.yml']
+permissions:
+  contents: read
+jobs:
+  deploy-and-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      OLUMI_TOOLS: ${{ runner.temp }}/olumi-deploy-tools
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          sparse-checkout: netlify-access-preview
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Prepare isolated deployment directory
+        run: |
+          cp -R netlify-access-preview "$RUNNER_TEMP/olumi-live"
+          npm install --no-save --no-audit --no-fund --prefix "$OLUMI_TOOLS" netlify-cli@latest playwright@1.56.1
+      - name: Test exact submission adapter
+        run: node --test "$RUNNER_TEMP/olumi-live/tests/submission.test.mjs"
+      - name: Publish separate preview and verify live form
+        run: node "$RUNNER_TEMP/olumi-live/scripts/deploy-and-test.cjs"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: olumi-access-preview-evidence
+          path: ${{ runner.temp }}/olumi-live/evidence/
+          retention-days: 7
+          if-no-files-found: warn

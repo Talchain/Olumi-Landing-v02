@@ -1,0 +1,7 @@
+.netlify/
+node_modules/
+.env*
+!.env.example
+*.private.pem
+*claim*.json
+evidence/

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#f4f0ea">
+  <meta name="description" content="Sharper thinking. Smarter teams. Better outcomes. Request access to Olumi.">
+  <meta property="og:title" content="Olumi | Think better together">
+  <meta property="og:description" content="Sharper thinking. Smarter teams. Better outcomes. Request access to Olumi.">
+  <meta property="og:type" content="website">
+  <title>Olumi | Request access</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="module" src="/assets/app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#access-form">Skip to request access</a>
+  <div class="shell">
+    <header class="site-header">
+      <a href="/" class="logo-link" aria-label="Olumi home"><img src="/assets/olumi-logo.webp" width="302" height="101" alt="Olumi" class="logo" fetchpriority="high"></a>
+      <a href="mailto:hello@olumi.ai" class="header-link">Get in touch<svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a>
+    </header>
+    <main class="hero" id="main">
+      <section class="intro" aria-labelledby="main-heading">
+        <p class="eyebrow">Think better together</p>
+        <h1 id="main-heading"><span>Sharper thinking.</span><span>Smarter teams.</span><span class="outcomes">Better outcomes.</span></h1>
+        <p class="intro-text">Science-powered AI amplifies collective intelligence, transforming how teams strategise, decide and win.</p>
+        <svg class="brand-figure" viewBox="0 0 570 224" fill="none" aria-hidden="true">
+          <path class="construction" d="M25 99H552M110 18v190M467 18v190"/>
+          <path class="construction" d="M31 180h25m-12-12v25M515 44h20m-10-10v20"/>
+          <circle class="construction" cx="110" cy="99" r="60"/>
+          <path class="connector" d="M111 99h83q45 0 45 44v2q0 43 44 43h68q82 0 82-73v-7q0-39 40-39h48"/>
+          <circle class="shape-orange" cx="110" cy="99" r="38"/>
+          <path class="shape-blue" d="m238 119 45 78h-90z"/>
+          <rect class="shape-green" x="435" y="37" width="65" height="65"/>
+        </svg>
+      </section>
+      <section class="form-wrap" aria-labelledby="access-heading">
+        <div class="form-card">
+          <div class="card-kicker"><span>Early access</span><span class="mini-shapes" aria-hidden="true"><i></i><i></i><i></i></span></div>
+          <div id="form-content">
+            <h2 id="access-heading">Request access.</h2>
+            <p class="card-description">Leave your details and we’ll be in touch.</p>
+            <form id="access-form" novalidate>
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@organisation.com" required maxlength="254" aria-describedby="email-error" spellcheck="false" autocapitalize="none">
+                <p class="field-error" id="email-error" hidden></p>
+              </div>
+              <div class="field">
+                <label for="full-name">Full name <span class="optional">(optional)</span></label>
+                <input id="full-name" name="full_name" type="text" autocomplete="name" placeholder="Your name" maxlength="120" aria-describedby="name-error">
+                <p class="field-error" id="name-error" hidden></p>
+              </div>
+              <div hidden aria-hidden="true"><label for="website">Leave this empty</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+              <button class="submit" id="request-button" type="submit" disabled><span id="button-label">Request access</span><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
+              <p class="global-error" id="submission-error" role="alert" hidden></p>
+              <p class="form-note">We’ll be in touch about your request. <button type="button" class="underlined" data-open-privacy>Privacy policy</button>.</p>
+            </form>
+            <noscript><p class="nojs">Please enable JavaScript to use the form, or request access by emailing <a href="mailto:hello@olumi.ai">hello@olumi.ai</a>.</p></noscript>
+          </div>
+          <div class="success" id="success-content" hidden>
+            <div class="success-mark" aria-hidden="true"><svg class="arrow" viewBox="0 0 24 24"><path d="m5 12 4.5 4.5L19 7"/></svg></div>
+            <h2 id="success-heading" tabindex="-1">Request received.</h2>
+            <p>Thanks for your interest in Olumi. We’ve received your request and will be in touch.</p>
+            <button class="underlined" id="reset-form" type="button">Use another email</button>
+          </div>
+          <div class="card-footer"><span>Prefer a conversation?</span><a href="mailto:hello@olumi.ai">Get in touch<svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a></div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer"><p>© 2026 Olumi</p><div class="footer-links"><button type="button" data-open-privacy>Privacy policy</button><a class="footer-email" href="mailto:hello@olumi.ai">hello@olumi.ai</a></div></footer>
+  </div>
+  <dialog id="privacy-dialog" aria-labelledby="privacy-heading">
+    <div class="dialog-inner"><div class="dialog-header"><h2 id="privacy-heading">Privacy policy</h2><button class="dialog-close" type="button" aria-label="Close privacy policy"><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg></button></div><div class="privacy-copy" id="privacy-copy"></div></div>
+  </dialog>
+</body>
+</html>
