@@ -9,8 +9,6 @@ jobs:
   deploy-and-verify:
     runs-on: ubuntu-latest
     timeout-minutes: 12
-    env:
-      OLUMI_TOOLS: ${{ runner.temp }}/olumi-deploy-tools
     steps:
       - uses: actions/checkout@v4
         with:
@@ -22,6 +20,8 @@ jobs:
       - name: Prepare isolated deployment directory
         run: |
           cp -R netlify-access-preview "$RUNNER_TEMP/olumi-live"
+          export OLUMI_TOOLS="$RUNNER_TEMP/olumi-deploy-tools"
+          echo "OLUMI_TOOLS=$OLUMI_TOOLS" >> "$GITHUB_ENV"
           npm install --no-save --no-audit --no-fund --prefix "$OLUMI_TOOLS" netlify-cli@latest playwright@1.56.1
       - name: Test exact submission adapter
         run: node --test "$RUNNER_TEMP/olumi-live/tests/submission.test.mjs"
