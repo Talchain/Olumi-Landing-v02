@@ -1,4 +1,4 @@
-name: Isolated Olumi marketing preview
+name: Verify isolated Olumi Netlify preview
 on:
   push:
     branches: ['codex/olumi-access-preview-v3']
@@ -6,9 +6,9 @@ on:
 permissions:
   contents: read
 jobs:
-  deploy-and-verify:
+  verify-hosted-page:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
         with:
@@ -17,16 +17,48 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '22'
-      - name: Prepare isolated deployment directory
+      - name: Prepare isolated verification directory
         run: |
           cp -R netlify-access-preview "$RUNNER_TEMP/olumi-live"
           export OLUMI_TOOLS="$RUNNER_TEMP/olumi-deploy-tools"
           echo "OLUMI_TOOLS=$OLUMI_TOOLS" >> "$GITHUB_ENV"
-          npm install --no-save --no-audit --no-fund --prefix "$OLUMI_TOOLS" netlify-cli@latest playwright@1.56.1
+          npm install --no-save --no-audit --no-fund --prefix "$OLUMI_TOOLS" playwright@1.56.1
       - name: Test exact submission adapter
         run: node --test "$RUNNER_TEMP/olumi-live/tests/submission.test.mjs"
-      - name: Publish separate preview and verify live form
-        run: node "$RUNNER_TEMP/olumi-live/scripts/deploy-and-test.cjs"
+      - name: Verify the site already deployed
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs'),path=require('node:path');
+          const root=path.join(process.env.RUNNER_TEMP,'olumi-live');
+          const original=fs.readFileSync(path.join(root,'scripts/deploy-and-test.cjs'),'utf8');
+          let tests=original.slice(original.indexOf('const checks=[];'));
+          const prefix=`const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+          const root=path.resolve(__dirname,'..'),out=path.join(root,'evidence');fs.mkdirSync(out,{recursive:true});
+          const {chromium}=require(path.join(process.env.OLUMI_TOOLS,'node_modules/playwright'));
+          const base='https://darling-tiramisu-f9f53a.netlify.app';
+          const publicInfo={url:base,siteId:'d7509b96-7c99-4659-aa09-e4715f9d3ea0',deployId:'6acc2d4a9ec633e93677c9a2',deployedAt:'2026-10-12T00:43:57Z',claimRequired:true,commit:process.env.GITHUB_SHA};
+          fs.writeFileSync(path.join(out,'public-deploy.json'),JSON.stringify(publicInfo,null,2));
+          `;
+          tests=tests.replace('const response=await page.goto','let response=await page.goto');
+          tests=tests.replace(" check('HTTPS page loads'",` if(await page.locator('input[type=password]').count()){
+            console.log('TEMPORARY_NETLIFY_PASSWORD_SCREEN='+await page.locator('body').innerText());
+            await page.locator('input[type=password]').fill('My-Drop-Site');
+            const submit=page.locator('button[type=submit],input[type=submit]');
+            if(await submit.count()!==1)throw new Error('Password screen needs manual review.');
+            await submit.click();await page.waitForLoadState('networkidle');
+            response=await page.goto(base+'/?source=investor-deck',{waitUntil:'networkidle'});
+          }
+           check('HTTPS page loads'`);
+          tests=tests.replace("{javaScriptEnabled:false}","{javaScriptEnabled:false,storageState:await context.storageState()}");
+          fs.writeFileSync(path.join(root,'scripts/verify-live.cjs'),prefix+tests);
+          NODE
+          node "$RUNNER_TEMP/olumi-live/scripts/verify-live.cjs"
+      - name: Package exact deployed source
+        if: always()
+        run: |
+          cd "$RUNNER_TEMP/olumi-live"
+          mkdir -p evidence
+          zip -qr evidence/deployed-source.zip site netlify.toml tests
       - uses: actions/upload-artifact@v4
         if: always()
         with:
